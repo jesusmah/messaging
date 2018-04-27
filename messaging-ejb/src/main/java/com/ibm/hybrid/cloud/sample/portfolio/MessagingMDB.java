@@ -55,7 +55,10 @@ import javax.json.JsonObject;
 public class MessagingMDB implements MessageListener {
 	private static Logger logger = Logger.getLogger(MessagingMDB.class.getName());
 
-	private static final String NOTIFICATION_SERVICE = "http://notification-service:9080/notification";
+	private static final String NOTIFICATION_SERVICE = System.getenv("NOTIFICATION_SERVICE");
+	private static final String NOTIFICATION_SERVICE_PORT = System.getenv("NOTIFICATION_SERVICE_PORT");
+	private static final String NOTIFICATION_SERVICE_CONTEXT = System.getenv("NOTIFICATION_SERVICE_CONTEXT");
+	private static final String NOTIFICATION_SERVICE_URL = "http://"+ NOTIFICATION_SERVICE + ":" + NOTIFICATION_SERVICE_PORT + "/" + NOTIFICATION_SERVICE_CONTEXT;
 
 
 	/**
@@ -66,8 +69,8 @@ public class MessagingMDB implements MessageListener {
 			TextMessage text = (TextMessage) message;
 			String payload = text.getText();
 
-			logger.fine("Sending "+payload+" to "+NOTIFICATION_SERVICE);
-			JsonObject output = invokeREST("POST", NOTIFICATION_SERVICE, payload);
+			logger.fine("Sending "+payload+" to "+NOTIFICATION_SERVICE_URL);
+			JsonObject output = invokeREST("POST", NOTIFICATION_SERVICE_URL, payload);
 			logger.info("Received the following response from the Notification microservice: "+output);
 		} catch (Throwable t) {
 			logger.warning("An error occurred processing a JMS message from the queue");
@@ -91,7 +94,7 @@ public class MessagingMDB implements MessageListener {
 		conn.setRequestProperty("portfolio", owner); //for use in Istio routing rules
 		//use Istio to define whether to route to notification-slack or notification-twitter
 
-		// add the JWT token to the authorization header. 
+		// add the JWT token to the authorization header.
 		String userName = getUserName(input);
 		String jwtToken = createJWT(userName);
 		conn.setRequestProperty("Authorization", "Bearer "+ jwtToken);
@@ -136,12 +139,12 @@ public class MessagingMDB implements MessageListener {
 
 	/**
 	 * Create Json Web Token.
-	 * return: the base64 encoded and signed token. 
+	 * return: the base64 encoded and signed token.
 	 */
 	private static String createJWT(String userName){
-		String jwtTokenString = null;		
+		String jwtTokenString = null;
 		try {
-			// create() uses default settings.  
+			// create() uses default settings.
 			// For other settings, specify a JWTBuilder element in server.xml
 			// and call create(builder id)
 			JwtBuilder builder = JwtBuilder.create();
@@ -161,9 +164,9 @@ public class MessagingMDB implements MessageListener {
 			String issuer = System.getenv("JWT_ISSUER");
 			builder.claim("iss", issuer);
 
-			JwtToken theToken = builder.buildJwt();			
+			JwtToken theToken = builder.buildJwt();
 			jwtTokenString = theToken.compact();
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			logException(e);
 			throw new RuntimeException(e);
 		}
