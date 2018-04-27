@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Chart.Name }}
+data:
+  notification_service_slack: {{ .Release.Name }}-{{ .Values.notification.notification_service_slack }}
+  notification_service_port_slack: "{{ .Values.notification.notification_service_port_slack }}"
+  notification_service_context_slack: {{ .Values.notification.notification_service_context_slack }}
+  notification_service_twitter: {{ .Release.Name }}-{{ .Values.notification.notification_service_twitter }}
+  notification_service_port_twitter: "{{ .Values.notification.notification_service_port_twitter }}"
+  notification_service_context_twitter: {{ .Values.notification.notification_service_context_twitter }}

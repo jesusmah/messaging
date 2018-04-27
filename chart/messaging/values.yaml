@@ -1,0 +1,47 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+revisionHistoryLimit: 1
+image:
+  repository: mycluster.icp:8500/default
+  name: messaging
+  tag: latest
+  pullPolicy: Always
+  containerPort:
+    http: 9080
+    https: 9443
+  resources:
+    requests:
+      cpu: 200m
+      memory: 300Mi
+secret:
+  mq:
+    create: false
+    secret_name: stocktrader-mq
+    # id: app
+    id: YXBw
+    pwd:
+    # host: st-mq-ibm-mq
+    host: c3QtbXEtaWJtLW1x
+    # port: 1414
+    port: MTQxNA==
+    # channel: DEV.APP.SVRCONN
+    channel: REVWLkFQUC5TVlJDT05O
+    # queue-manager: trader
+    queue_manager: dHJhZGVy
+    # queue: NotificationQ
+    queue: Tm90aWZpY2F0aW9uUQ==
+  jwt:
+    create: false
+    secret_name: stocktrader-jwt
+    # audience: stock-trader
+    audience: c3RvY2stdHJhZGVy
+    # issuer: http://stock-trader.ibm.com
+    issuer: aHR0cDovL3N0b2NrLXRyYWRlci5pYm0uY29t
+notification:
+  notification_service_slack: notification-slack
+  notification_service_port_slack: "9080"
+  notification_service_context_slack: notification
+  notification_service_twitter: notification-twitter
+  notification_service_port_twitter: "9080"
+  notification_service_context_twitter: notification
