@@ -35,36 +35,6 @@ spec:
         image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-          - name: NOTIFICATION_SERVICE_SLACK
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_slack
-          - name: NOTIFICATION_SERVICE_PORT_SLACK
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_port_slack
-          - name: NOTIFICATION_SERVICE_CONTEXT_SLACK
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_context_slack
-          - name: NOTIFICATION_SERVICE_TWITTER
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_twitter
-          - name: NOTIFICATION_SERVICE_PORT_TWITTER
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_port_twitter
-          - name: NOTIFICATION_SERVICE_CONTEXT_TWITTER
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}
-                key: notification_service_context_twitter
           - name: MQ_ID
             valueFrom:
               secretKeyRef:
