@@ -3,7 +3,7 @@
 replicaCount: 1
 revisionHistoryLimit: 1
 image:
-  repository: mycluster.icp:8500/default
+  repository: ibmstocktrader
   name: messaging
   tag: latest
   pullPolicy: Always
@@ -38,10 +38,3 @@ secret:
     audience: c3RvY2stdHJhZGVy
     # issuer: http://stock-trader.ibm.com
     issuer: aHR0cDovL3N0b2NrLXRyYWRlci5pYm0uY29t
-notification:
-  notification_service_slack: notification-slack
-  notification_service_port_slack: "9080"
-  notification_service_context_slack: notification
-  notification_service_twitter: notification-twitter
-  notification_service_port_twitter: "9080"
-  notification_service_context_twitter: notification
